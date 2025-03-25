@@ -58,6 +58,38 @@ void CountingSort(vector<int>& vec) {
     vec = output;
 }
 
+
+// Roman Sort Algorithm
+void RomanSort(vector<int>& vec) {
+    if (vec.empty()) return;
+
+    int maxVal = *max_element(vec.begin(), vec.end());
+    int minVal = *min_element(vec.begin(), vec.end());
+
+    // Step 1: Create a counting array C
+    int range = maxVal - minVal + 1;
+    vector<int> count(range, 0);
+
+    // Step 2: Count the occurrences of each number in the vector
+    for (int num : vec) {
+        count[num - minVal]++;  // Shift numbers to be non-negative
+    }
+
+    // Step 3: Create the output vector B
+    vector<int> output(vec.size());
+    int index = 0;
+
+    // Step 4: Fill the output vector B based on the counts in C
+    for (int i = 0; i < range; i++) {
+        for (int j = 0; j < count[i]; j++) {
+            output[index++] = i + minVal;  // Shift back to the original values
+        }
+    }
+
+    // Step 5: Copy the sorted array back into the original vector
+    vec = output;
+}
+
 int main(int argc, const char* argv[]) {
     vector<int> A;
 
@@ -77,7 +109,7 @@ int main(int argc, const char* argv[]) {
     }
     else {
         // Roman sort
-    
+        RomanSort(A);
     }
 
     // Output the sorted numbers to out.txt
